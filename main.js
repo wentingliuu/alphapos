@@ -1,6 +1,7 @@
 // new the alphaPos Instance
 const alphaPos = new AlphaPos()
 
+// addEventListener on add button /////
 const addDrinkButton = document.querySelector('[data-alpha-pos="add-drink"]')
 addDrinkButton.addEventListener('click', function () {
   // 1. get checked value of options
@@ -20,14 +21,20 @@ addDrinkButton.addEventListener('click', function () {
   alphaPos.addDrink(drink)
 })
 
+// addEventListener on checkout button /////
 const checkoutButton = document.querySelector('[data-alpha-pos="checkout"]')
 checkoutButton.addEventListener('click', function () {
   // 1. calculate total amount
   Swal.fire(`Total amount of drinks：$${alphaPos.checkout()}`)
+  // 2. clear order list after calculating total amount
+  alphaPos.clearOrder(orderLists)
 })
 
+// constructor & methods below /////
 // Constructor function for Alpha Pos System
 function AlphaPos () { }
+
+// getCheckedValue method: to get drink, ice, sugar value
 AlphaPos.prototype.getCheckedValue = function (inputName) {
   let selectedOption = ''
   document.querySelectorAll(`[name=${inputName}]`).forEach(function (item) {
@@ -88,6 +95,13 @@ AlphaPos.prototype.checkout = function () {
     totalAmount += Number(drink.textContent)
   })
   return totalAmount
+}
+
+// remove method: remove .card elements in orderLists after getting total amount
+AlphaPos.prototype.clearOrder = function (target) {
+  target.querySelectorAll('.card').forEach(function (card) {
+    card.remove()
+  })
 }
 
 // Constructor function for Drinks
