@@ -3,10 +3,16 @@ const alphaPos = new AlphaPos()
 
 const addDrinkButton = document.querySelector('[data-alpha-pos="add-drink"]')
 addDrinkButton.addEventListener('click', function () {
+  // 1. 取出店員選擇的飲料品項、甜度、冰塊選項內容
   const drinkName = alphaPos.getCheckedValue('drink')
   const ice = alphaPos.getCheckedValue('ice')
   const sugar = alphaPos.getCheckedValue('sugar')
   console.log(`${drinkName}, ${ice}, ${sugar}`)
+  // 2. 如果沒有選擇飲料品項，跳出提示
+  if (!drinkName) {
+    Swal.fire('Please choose at least one item.')
+    return
+  }
 })
 
 // Constructor function for Alpha Pos System

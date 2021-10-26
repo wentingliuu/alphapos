@@ -2,6 +2,12 @@
   font-family: 'Irish Grover', cursive;
 }
 
+.swal2-popup {
+  font-size: 0.8rem !important;
+  border: 1px solid rgba(245, 86, 58, 0.8);
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
 body {
   min-height: 100vh;
   display: flex;
