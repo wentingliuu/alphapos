@@ -8,13 +8,14 @@ addDrinkButton.addEventListener('click', function () {
   const drinkName = alphaPos.getCheckedValue('drink')
   const ice = alphaPos.getCheckedValue('ice')
   const sugar = alphaPos.getCheckedValue('sugar')
+  const amount = alphaPos.getCheckedValue('amount')
   // 2. show alert if user did not check any drink option
   if (!drinkName) {
     Swal.fire('Please choose at least one item.')
     return
   }
   // 3. use Drink Constructor to create drink instance
-  const drink = new Drink(drinkName, sugar, ice)
+  const drink = new Drink(drinkName, sugar, ice, amount)
   console.log(drink)
   console.log(drink.price())
   // 4. add drink instance to left side order list
@@ -66,7 +67,7 @@ AlphaPos.prototype.addDrink = function (drink) {
     </div>
     <div class="card-footer text-right py-2">
       <div class="card-text text-muted">
-        $ <span data-drink-price>${drink.price()}</span>
+        $ <span data-drink-price>${drink.price()}</span> x <span data-drink-amount>${drink.amount}</span>
       </div>
     </div>
   </div>
@@ -92,7 +93,8 @@ AlphaPos.prototype.deleteDrink = function (target) {
 AlphaPos.prototype.checkout = function () {
   let totalAmount = 0
   document.querySelectorAll('[data-drink-price]').forEach(function (drink) {
-    totalAmount += Number(drink.textContent)
+    const amount = Number(drink.nextElementSibling.textContent)
+    totalAmount += Number(drink.textContent) * amount
   })
   return totalAmount
 }
@@ -105,10 +107,11 @@ AlphaPos.prototype.clearOrder = function (target) {
 }
 
 // Constructor function for Drinks
-function Drink (name, sugar, ice) {
+function Drink (name, sugar, ice, amount) {
   this.name = name
   this.sugar = sugar
   this.ice = ice
+  this.amount = amount
 }
 
 // price methods: get price according to the drink
