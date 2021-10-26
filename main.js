@@ -13,6 +13,11 @@ addDrinkButton.addEventListener('click', function () {
     Swal.fire('Please choose at least one item.')
     return
   }
+  // 3. 建立飲料實例，並取得飲料價格
+  const drink = new Drink(drinkName, sugar, ice)
+  console.log(drink)
+  console.log(drink.price())
+  // 4. 
 })
 
 // Constructor function for Alpha Pos System
