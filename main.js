@@ -17,7 +17,7 @@ addDrinkButton.addEventListener('click', function () {
   const drink = new Drink(drinkName, sugar, ice)
   console.log(drink)
   console.log(drink.price())
-  // 4. add instance to left side order list
+  // 4. add drink instance to left side order list
   alphaPos.addDrink(drink)
 })
 
@@ -34,7 +34,7 @@ AlphaPos.prototype.getCheckedValue = function (inputName) {
 }
 
 // addDrink methods: HTML template for add drink to left side order list
-const orderLists = document.querySelector('[data-alpha-pos="checkout"]').parentElement
+const checkoutBtn = document.querySelector('[data-alpha-pos="checkout"]').parentElement
 AlphaPos.prototype.addDrink = function (drink) {
   const orderListsCard = `
     <div class="card mb-3">
@@ -60,7 +60,20 @@ AlphaPos.prototype.addDrink = function (drink) {
   </div>
   `
 
-  orderLists.insertAdjacentHTML('beforebegin', orderListsCard)
+  checkoutBtn.insertAdjacentHTML('beforebegin', orderListsCard)
+}
+
+// deleteDrink methods: remove the orderListsCard when clicking delete icon
+const orderLists = document.querySelector('[data-order-lists]')
+orderLists.addEventListener('click', function (event) {
+  const isDeleteButton = event.target.matches('[data-alpha-pos="delete-drink"]')
+  if (!isDeleteButton) {
+    return
+  }
+  alphaPos.deleteDrink(event.target.parentElement.parentElement.parentElement)
+})
+AlphaPos.prototype.deleteDrink = function (target) {
+  target.remove()
 }
 
 // Constructor function for Drinks
