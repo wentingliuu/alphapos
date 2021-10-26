@@ -1,0 +1,42 @@
+* {
+  font-family: 'Irish Grover', cursive;
+}
+
+body {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: url('alphaPos-bg.jpg') no-repeat center center;
+  background-size: cover;
+}
+
+.container {
+  background-color: rgba(0, 0, 0, 0.8);
+  border-radius: 3px;
+}
+
+/* add scrollbar to left  panel */
+.row {
+  max-height: 600px;
+}
+.col-md-4 {
+  max-height: 599px;
+  overflow-y: auto;
+  /* overflow: scroll;*/
+}
+
+[data-alpha-pos="delete-drink"] {
+  display: inline-block;
+  text-align: center;
+  color: #999;
+  cursor: pointer;
+  width: 20px;
+  height: 20px;
+  font-size: 20px;
+  line-height: 1;
+}
+
+[data-alpha-pos="delete-drink"]:hover {
+  color: #333;
+}
