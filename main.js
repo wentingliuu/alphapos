@@ -7,7 +7,6 @@ addDrinkButton.addEventListener('click', function () {
   const drinkName = alphaPos.getCheckedValue('drink')
   const ice = alphaPos.getCheckedValue('ice')
   const sugar = alphaPos.getCheckedValue('sugar')
-  console.log(`${drinkName}, ${ice}, ${sugar}`)
   // 2. show alert if user did not check any drink option
   if (!drinkName) {
     Swal.fire('Please choose at least one item.')
@@ -19,6 +18,12 @@ addDrinkButton.addEventListener('click', function () {
   console.log(drink.price())
   // 4. add drink instance to left side order list
   alphaPos.addDrink(drink)
+})
+
+const checkoutButton = document.querySelector('[data-alpha-pos="checkout"]')
+checkoutButton.addEventListener('click', function () {
+  // 1. calculate total amount
+  Swal.fire(`Total amount of drinks：$${alphaPos.checkout()}`)
 })
 
 // Constructor function for Alpha Pos System
@@ -34,7 +39,7 @@ AlphaPos.prototype.getCheckedValue = function (inputName) {
 }
 
 // addDrink methods: HTML template for add drink to left side order list
-const checkoutBtn = document.querySelector('[data-alpha-pos="checkout"]').parentElement
+const checkoutBtnPre = document.querySelector('[data-alpha-pos="checkout"]').parentElement
 AlphaPos.prototype.addDrink = function (drink) {
   const orderListsCard = `
     <div class="card mb-3">
@@ -60,7 +65,7 @@ AlphaPos.prototype.addDrink = function (drink) {
   </div>
   `
 
-  checkoutBtn.insertAdjacentHTML('beforebegin', orderListsCard)
+  checkoutBtnPre.insertAdjacentHTML('beforebegin', orderListsCard)
 }
 
 // deleteDrink methods: remove the orderListsCard when clicking delete icon
@@ -74,6 +79,15 @@ orderLists.addEventListener('click', function (event) {
 })
 AlphaPos.prototype.deleteDrink = function (target) {
   target.remove()
+}
+
+// checkout method: calculate total amount
+AlphaPos.prototype.checkout = function () {
+  let totalAmount = 0
+  document.querySelectorAll('[data-drink-price]').forEach(function (drink) {
+    totalAmount += Number(drink.textContent)
+  })
+  return totalAmount
 }
 
 // Constructor function for Drinks
