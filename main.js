@@ -3,21 +3,22 @@ const alphaPos = new AlphaPos()
 
 const addDrinkButton = document.querySelector('[data-alpha-pos="add-drink"]')
 addDrinkButton.addEventListener('click', function () {
-  // 1. 取出店員選擇的飲料品項、甜度、冰塊選項內容
+  // 1. get checked value of options
   const drinkName = alphaPos.getCheckedValue('drink')
   const ice = alphaPos.getCheckedValue('ice')
   const sugar = alphaPos.getCheckedValue('sugar')
   console.log(`${drinkName}, ${ice}, ${sugar}`)
-  // 2. 如果沒有選擇飲料品項，跳出提示
+  // 2. show alert if user did not check any drink option
   if (!drinkName) {
     Swal.fire('Please choose at least one item.')
     return
   }
-  // 3. 建立飲料實例，並取得飲料價格
+  // 3. use Drink Constructor to create drink instance
   const drink = new Drink(drinkName, sugar, ice)
   console.log(drink)
   console.log(drink.price())
-  // 4. 
+  // 4. add instance to left side order list
+  alphaPos.addDrink(drink)
 })
 
 // Constructor function for Alpha Pos System
@@ -30,6 +31,36 @@ AlphaPos.prototype.getCheckedValue = function (inputName) {
     }
   })
   return selectedOption
+}
+
+// addDrink methods: HTML template for add drink to left side order list
+const orderLists = document.querySelector('[data-alpha-pos="checkout"]').parentElement
+AlphaPos.prototype.addDrink = function (drink) {
+  const orderListsCard = `
+    <div class="card mb-3">
+    <div class="card-body pt-3 pr-3">
+      <div class="text-right">
+        <span data-alpha-pos="delete-drink">×</span>
+      </div>
+      <h5 class="card-title mb-1">${drink.name}</h5>
+      <div class="card-text">
+        <i class="fas fa-cube fa-sm"></i>
+        <span data-drink-ice>${drink.ice}</span>
+      </div>
+      <div class="card-text">
+        <i class="fas fa-stroopwafel fa-sm"></i>
+        <span data-drink-sugar>${drink.sugar}</span>
+      </div>
+    </div>
+    <div class="card-footer text-right py-2">
+      <div class="card-text text-muted">
+        $ <span data-drink-price>${drink.price()}</span>
+      </div>
+    </div>
+  </div>
+  `
+
+  orderLists.insertAdjacentHTML('beforebegin', orderListsCard)
 }
 
 // Constructor function for Drinks
